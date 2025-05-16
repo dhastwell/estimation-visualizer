@@ -61,12 +61,12 @@ app.use((req, res, next) => {
   // It is the only port that is not firewalled.
   const port = parseInt(process.env.PORT || "5000", 10);
   server.listen({
-    port,
-    host: "localhost",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
+  port,
+  host: "127.0.0.1", // ⬅️ force IPv4
+  reusePort: true,
+}, () => {
+  log(`✅ Serving on port ${port}`);
+});
   
   process.on("SIGINT", () => {
   log("🛑 Gracefully shutting down...");
