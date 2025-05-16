@@ -60,15 +60,16 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = 5000;
-  server.listen(port, "0.0.0.0", () => {
-    log(`serving on port ${port}`);
-  }).on('error', (e: any) => {
-    if (e.code === 'EADDRINUSE') {
-      log(`Port ${port} is busy, retrying...`);
-      setTimeout(() => {
+  const tryListen = () => {
+    server.listen(port, "0.0.0.0", () => {
+      log(`serving on port ${port}`);
+    }).on('error', (e: any) => {
+      if (e.code === 'EADDRINUSE') {
+        log(`Port ${port} is busy, stopping server...`);
         server.close();
-        server.listen(port, "0.0.0.0");
-      }, 1000);
-    }
-  });
+        process.exit(1);
+      }
+    });
+  };
+  tryListen();
 })();
