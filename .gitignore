@@ -1,0 +1,13 @@
+# Ignore macOS metadata
+.DS_Store
+
+# Node
+node_modules/
+.env
+
+# Builds
+dist/
+build/
+
+# Vite
+.vite/
